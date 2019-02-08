@@ -1,8 +1,20 @@
 #include "workshop.h"
+#include <string>
+
+void print_result(const std::string& type, double duration, double gflops) {
+    std::cout << type << ":" << std::endl
+              << "  duration: " << duration << std::endl
+              << "  gflops: " << gflops << std::endl;
+}
 
 int main(int argc, char **argv)
 {
-    const int size = 512;
+    int size = 512;
+    if (argc > 1) {
+      size = std::stoi(argv[1]);
+    }
+    std::cout << "Array size " << size << std::endl;
+
 
     auto a = workshop::Array<float>(size);
     auto b = workshop::Array<float>(size);
@@ -40,15 +52,9 @@ int main(int argc, char **argv)
 
     auto vector_duration = workshop::get_duration(timer);
     auto gflops = 100000 * size / (duration * 1e3);
-    auto vectorised_gflops = 100000 * size / (vector_duration * 1e3);
+    auto vector_gflops = 100000 * size / (vector_duration * 1e3);
 
-    std::cout << "The standard loop took " << duration
-              << " microseconds to complete."
-              << " (" << gflops << " GFLOPS)" << std::endl;
-
-    std::cout << "The vectorised loop took " << vector_duration
-              << " microseconds to complete"
-              << " (" << vectorised_gflops << " GFLOPS)" << std::endl;
-
+    print_result("naive", duration, gflops);
+    print_result("vectorised", vector_duration, vector_gflops);
     return 0;
 }
