@@ -112,3 +112,25 @@ Andrei says these things about the above calculations:
 
 > When you use AVX, frequency also drops further (by an usually unspecified amount)
 > it's safe to assume at least -200 MHz for AVX2 and more if there was AVX-512.
+
+---
+
+> Edit loop.cpp and use omp simd to vectorise the standard loop. Check that the
+> newly-vectorised standard loop now runs at the same speed as the vectorised
+> loop.
+
+The first loop still runs a bit slower, I wonder if this is due to cache warming effects?
+
+> For GCC, omp simd vectorisation is supported via the -fopenmp-simd compiler
+> flag. For CLANG, omp simd vectorisation is supported via the -openmp-simd
+> compiler flag. Try recompiling loop.cpp without this flag.
+
+The second loop still runs ~ 0.4GFLOP/s faster, but is considerably slower than
+it was before. I think this points to cache effects causing the first loop to be slower.
+
+> How fast do the two loops run now? Does this mean that #pragma omp simd has been ignored?
+
+- First loop: ~ 0.9 GFLOP/s
+- Second loop: ~ 1.3 GFLOP/s
+
+Looks like the pragma is being ignored as I was getting ~5.5 GFLOP/s before.
