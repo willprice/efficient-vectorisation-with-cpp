@@ -93,8 +93,22 @@ Max FLOPS of my computer:
 
 AVX2 implements 256 bit vector units, which can fit 8 floats.
 
-- Serial Scalar: 3 * 1e9 = 3 GFLOPS
-- Serial Vectorized: 3 * 1e9 * 8 = 24 GFLOPS
-- Parallel Scalar: 3 * 1e9 * 2 = 6 GFLOPS
-- Parallel Vectorised: 3 * 1e9 * 2 * 8 = 48 GFLOPS
+- Serial Scalar: 3 * 1e9 = 3 GFLOP/s
+- Serial Vectorized: 3 * 1e9 * 8 = 24 GFLOP/s
+- Parallel Scalar: 3 * 1e9 * 2 = 6 GFLOP/s
+- Parallel Vectorised: 3 * 1e9 * 2 * 8 = 48 GFLOP/s
 
+Andrei says these things about the above calculations:
+
+> Your calculation needs an extra 2x because your CPU can do [FMA](https://en.wikipedia.org/wiki/Multiply%E2%80%93accumulate_operation#Fused_multiply%E2%80%93add)s
+> calculation needs an extra 2x because your CPU can do FMAs (`Flags: fma`)
+
+> Some CPUs also have more than 1 vector unit/core, and I don't know how many yours has
+> a TX2, for example, has 2 vector units per core, so you would have an extra 2x
+
+> Turbo frequency is also a bit of black magic at the very bottom of that
+> [page](https://en.wikichip.org/wiki/intel/core_i5/i5-6300u) you will see that
+> it's different if you're running 1 vs 2 cores
+
+> When you use AVX, frequency also drops further (by an usually unspecified amount)
+> it's safe to assume at least -200 MHz for AVX2 and more if there was AVX-512.
