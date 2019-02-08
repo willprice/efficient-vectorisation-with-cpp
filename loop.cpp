@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     {
         for (int i=0; i<size; ++i)
         {
-            c[i] = a[i] + b[i];
+            c[i] = a[i] * b[i];
         }
     }
 
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
         #pragma omp simd
         for (int i=0; i<size; ++i)
         {
-            c[i] = a[i] + b[i];
+            c[i] = a[i] * b[i];
         }
     }
 
