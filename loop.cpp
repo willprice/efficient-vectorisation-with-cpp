@@ -39,12 +39,16 @@ int main(int argc, char **argv)
     }
 
     auto vector_duration = workshop::get_duration(timer);
+    auto gflops = 100000 * size / (duration * 1e3);
+    auto vectorised_gflops = 100000 * size / (vector_duration * 1e3);
 
     std::cout << "The standard loop took " << duration
-              << " microseconds to complete." << std::endl;
+              << " microseconds to complete."
+              << " (" << gflops << " GFLOPS)" << std::endl;
 
     std::cout << "The vectorised loop took " << vector_duration
-              << " microseconds to complete." << std::endl;
+              << " microseconds to complete"
+              << " (" << vectorised_gflops << " GFLOPS)" << std::endl;
 
     return 0;
 }
