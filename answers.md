@@ -9,7 +9,7 @@ When I run `loop` I get these results for vectorized addition:
 > The standard loop took 78951.3 microseconds to complete.
 > The vectorised loop took 9275.81 microseconds to complete.
 
-We perform 100,000 iterations over an array of 512 elements so the naive loop
+We perform 100,000 iterations over an array of 512 elements so the scalar loop
 operates at 0.65 GFLOPS and the vectorized loop 5.52 GFLOPS.
 
 > Edit loop.cpp and change it so that it compares a standard multiplication with
@@ -20,12 +20,12 @@ operates at 0.65 GFLOPS and the vectorized loop 5.52 GFLOPS.
 
 For division:
 
-- Naive loop: 91582 microseconds (0.56 GFLOPS)
+- Scalar loop: 91582 microseconds (0.56 GFLOPS)
 - Vectorised loop: 16135 microseconds (3.17 GFLOPS)
 
 For multiplication:
 
-- Naive loop: 37373.9 microseconds (1.33 GFLOPS)
+- Scalar loop: 37373.9 microseconds (1.33 GFLOPS)
 - Vectorised loop: 10086 (5.08 GFLOPS)
 
 > Finally, edit loop.cpp to change the size of the arrays (edit the size
@@ -33,7 +33,7 @@ For multiplication:
 > Does changing the size affect the speedup of the vectorised loop versus the
 > unvectorised loop? Good sizes to try are 1, 2, 4, 128, 256 and 4096.
 
-| Array size | Naive duration | Naive GFLOPS | Vector duration | Vector GFLOPS |
+| Array size | Scalar duration | Scalar GFLOPS | Vector duration | Vector GFLOPS |
 |------------|----------------|--------------|-----------------|---------------|
 | 1 | 743.194 | 0.134554 | 1546.23 | 0.0646733 |
 | 2 | 823.174 | 0.242962 | 1958.97 | 0.102095 |
