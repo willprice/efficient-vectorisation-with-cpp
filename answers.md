@@ -48,3 +48,53 @@ For multiplication:
 | 1024 | 83866.9 | 1.22098 | 21142.1 | 4.84343 |
 | 2048 | 167905 | 1.21974 | 42595.4 | 4.80803 |
 | 4096 | 349977 | 1.17036 | 116263 | 3.52304 |
+
+> Find out the speed, number of cores and size of vector of the processor you
+> are using now (e.g. by using the lscpu command on Linux, and multiplying the
+> number of sockets by the number of cores per socket, and then looking at the
+> file /proc/cpuinfo and seeing if sse, sse2, avx or avx2 etc. are included in
+> the set of supported processor flags).
+
+```
+$ lscpu
+
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+Address sizes:       39 bits physical, 48 bits virtual
+CPU(s):              4
+On-line CPU(s) list: 0-3
+Thread(s) per core:  2
+Core(s) per socket:  2
+Socket(s):           1
+NUMA node(s):        1
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               78
+Model name:          Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz
+Stepping:            3
+CPU MHz:             1300.066
+CPU max MHz:         3000.0000
+CPU min MHz:         400.0000
+BogoMIPS:            4993.00
+Virtualization:      VT-x
+L1d cache:           32K
+L1i cache:           32K
+L2 cache:            256K
+L3 cache:            3072K
+NUMA node0 CPU(s):   0-3
+Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp flush_l1d
+```
+
+So I have 2 cores running at a max of 3GHz which support the SSE, SSE2, AVX,
+AVX2 instruction sets.
+
+Max FLOPS of my computer:
+
+AVX2 implements 256 bit vector units, which can fit 8 floats.
+
+- Serial Scalar: 3 * 1e9 = 3 GFLOPS
+- Serial Vectorized: 3 * 1e9 * 8 = 24 GFLOPS
+- Parallel Scalar: 3 * 1e9 * 2 = 6 GFLOPS
+- Parallel Vectorised: 3 * 1e9 * 2 * 8 = 48 GFLOPS
+
