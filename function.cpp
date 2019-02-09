@@ -1,4 +1,5 @@
 #include "workshop.h"
+#include <string>
 
 float simple_function(float a, float b)
 {
@@ -17,7 +18,10 @@ float vector_function(float a, float b)
 
 int main(int argc, char **argv)
 {
-    const int size = 4;
+    int size = 4;
+    if (argc > 1) {
+      size = std::stoi(argv[1]);
+    }
 
     auto a = workshop::Array<float>(size);
     auto b = workshop::Array<float>(size);
@@ -59,6 +63,7 @@ int main(int argc, char **argv)
     auto scalar_gflops  = ops_per_loop * 100000 * size / (duration * 1e3);
     auto vector_gflops  = ops_per_loop * 100000 * size / (vector_duration * 1e3);
 
+    std::cout << "array size: " << size << std::endl;
     std::cout << "scalar function:" << std::endl
               << "  microseconds: " << duration << std::endl
               << "  gflops: " << scalar_gflops << std::endl;

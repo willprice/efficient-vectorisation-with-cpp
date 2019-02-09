@@ -1,8 +1,13 @@
 #include "workshop.h"
+#include <string>
 
 int main(int argc, char **argv)
 {
-    const int size = 512;
+    
+    int size = 512;
+    if (argc > 1) {
+      size = std::stoi(argv[1]);
+    }
 
     auto a = workshop::Array<float>(size);
     auto b = workshop::Array<float>(size);
@@ -66,6 +71,7 @@ int main(int argc, char **argv)
     auto vector_gflops = 100000 * size / (vector_duration * 1e3);
     auto reduction_gflops = 100000 * size / (red_duration * 1e3);
 
+    std::cout << "array size: " << size << std::endl;
     std::cout << "standard loop:" << std::endl
               << "  total: " << total << std::endl
               << "  microseconds: " << duration << std::endl
