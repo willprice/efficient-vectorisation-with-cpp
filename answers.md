@@ -233,7 +233,7 @@ A few observations:
 
 ---
 
-# Contiguous and non-contiguous memory layout
+## Contiguous and non-contiguous memory layout
 
 ```
 $ ./loop
@@ -247,3 +247,32 @@ The vectorised loop took 42843.9 microseconds to complete.
 
 The vectorised loop performs much quicker when the memory layout is contiguous
 on my laptop.
+
+
+---
+
+## Array of structs or struct of arrays?
+
+```
+$ ./array_of_structs
+The standard loop took 78011.4 microseconds to complete.
+The vectorised loop took 78906.9 microseconds to complete.
+
+$ ./struct_of_arrays
+The standard loop took 92066.2 microseconds to complete.
+The vectorised loop took 24281.1 microseconds to complete.
+```
+
+The struct of arrays is much quicker because the memory access is contiguous:
+The computation coordinate difference squared and therefore struct of arrays is
+much quicker due to the vectorisation being able to bunch up the computation.
+
+Refer to the [section notes](http://chryswoods.com/vector_c++/memory.html) for
+a good description of why this happens.
+
+This diagram from the page above shows why the vectorisation isn't as efficient:
+![vectorised structs](http://chryswoods.com/vector_c++/images/aofs.jpg)
+
+vs:
+
+![vectorized arrays](http://chryswoods.com/vector_c++/images/packed.jpg)

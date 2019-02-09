@@ -4,3 +4,5 @@ reduction
 function
 collapse
 loop2
+array_of_structs
+struct_of_arrays
