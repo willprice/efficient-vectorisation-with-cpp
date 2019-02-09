@@ -230,3 +230,20 @@ A few observations:
   more iterations to get a decent GFLOP/s estimate.
 - Collapsing the loop seems to have had a detrimental effect compared to
   vectorising the inner loop.
+
+---
+
+# Contiguous and non-contiguous memory layout
+
+```
+$ ./loop
+The standard loop took 48743.9 microseconds to complete.
+The vectorised loop took 9337.3 microseconds to complete.
+
+$ ./loop2
+The standard loop took 69643.1 microseconds to complete.
+The vectorised loop took 42843.9 microseconds to complete.
+```
+
+The vectorised loop performs much quicker when the memory layout is contiguous
+on my laptop.
