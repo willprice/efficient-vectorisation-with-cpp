@@ -202,3 +202,31 @@ Negligible on my machine regardless of inlining or not.
 > What is the difference in speed between the inlined and non-inlined program?
 
 Inlining makes a huge difference, making it about ~20 times faster.
+
+## `pragma omp simd collapse(n)`
+
+> Run this code for different values of size to compare the speed-up (if any)
+> of vectorising the double loop in these different ways.
+
+| Array size | Scalar time | Scalar GFLOP/s | Vector outer-loop time | Vector outer-loop GFLOP/s | Vector inner-loop time | Vector inner-loop GFLOP/s | Vector collapsed time | Vector collapsed GFLOP/s |
+|------------|-------------|----------------|------------------------|---------------------------|------------------------|---------------------------|-----------------------|--------------------------|
+| 1 | 0.113 | 88.4956 | 0.055 | 181.818 | 0.052 | 192.308 | 0.05 | 200 |
+| 2 | 0.14 | 285.714 | 0.055 | 727.273 | 0.037 | 1081.08 | 80.298 | 0.498144 |
+| 4 | 229.415 | 0.697426 | 229.273 | 0.697858 | 115.768 | 1.38207 | 460.736 | 0.34727 |
+| 8 | 957.218 | 0.668604 | 916.499 | 0.69831 | 229.193 | 2.79241 | 1712.72 | 0.373675 |
+| 16 | 3665.17 | 0.698467 | 3352.99 | 0.763497 | 826.001 | 3.09927 | 5922.55 | 0.432246 |
+| 32 | 17187.2 | 0.595792 | 13229.4 | 0.774031 | 3397.86 | 3.01366 | 26257.6 | 0.389982 |
+| 64 | 49763.6 | 0.823092 | 45493.1 | 0.900356 | 11137 | 3.67782 | 87999.6 | 0.465457 |
+| 128 | 187922 | 0.871851 | 189359 | 0.865237 | 48695 | 3.36461 | 432157 | 0.379121 |
+| 256 | 847053 | 0.773694 | 820065 | 0.799156 | 227145 | 2.88521 | 1.81143e+06 | 0.361791 |
+| 512 | 3.94705e+06 | 0.664151 | 3.8304e+06 | 0.684378 | 1.37667e+06 | 1.90419 | 6.58155e+06 | 0.398301 |
+
+> Do you see any speed-up from using collapse(2)? Which method of vectorising a
+> double loop reliably performs best?
+
+A few observations:
+
+- Array sizes 1 and 2 seem to cause issues, presumably we'd need to run for
+  more iterations to get a decent GFLOP/s estimate.
+- Collapsing the loop seems to have had a detrimental effect compared to
+  vectorising the inner loop.
